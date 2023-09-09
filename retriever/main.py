@@ -1,8 +1,12 @@
 
-from tf_idf import TFIDF_Retriever
+from . import TFIDF_Retriever
 
 
 class Retriever:
+    """
+    wrapper class for different retrieval methods
+    read more in the README.md
+    """
     def __init__(self, method, **params):
 
         if method == 'tf_idf_cfg_1': # config-1
@@ -36,19 +40,4 @@ class Retriever:
     
 
 
-def test_TFIDF_Retriever():
 
-    retriever = Retriever(
-        method='tf_idf_custom',
-    )
-    retriever.add_doc(docs)
-    results = retriever.find_similars('hello world', top_k=4)
-    for item in results:
-        print(item)
-    print('-------------------')
-    results = retriever.find_similars('similar term!', top_k=4)
-    for item in results:
-        print(item)
-
-if __name__ == '__main__':
-    test_TFIDF_Retriever()

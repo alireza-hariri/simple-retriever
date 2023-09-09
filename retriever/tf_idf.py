@@ -1,7 +1,7 @@
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
-
+from .utils import top_k_argsort
 
 
 class TFIDF_Retriever:
@@ -45,24 +45,24 @@ class TFIDF_Retriever:
         # https://stackoverflow.com/questions/12118720/python-tf-idf-cosine-to-find-document-similarity
         scores = np.dot(query_vec, self.X.T).toarray()[0]
 
-        # 
-        top_idx = np.argpartition(scores, -top_k)[-top_k:] # partition top k scores
-        top_scores = scores[top_idx]
-        top_idx_sorted = top_idx[np.argsort(-top_scores)]
+        top_idx_sorted = top_k_argsort(scores, top_k)
         return [(self.docs[i], scores[i]) for i in top_idx_sorted]
 
 
     def fit(self):
-        if self.verbose:
-            print('calculating tf-idf term relevance matrix...')
+        verbose = self.verbose or len(self.docs)>50_000
+        if verbose:
+            print('\n calculating tf-idf term relevance matrix...',end='')
         self.X = self.vectorizer.fit_transform(self.docs)
         self.analyzer = self.vectorizer.build_analyzer()
         self.is_fit = True
-        if self.verbose:
-            print('done')
+        if verbose:
+            print(' done')
 
     def get_vocababulary(self):
         return list(self.vectorizer.get_feature_names_out())
+
+
 
 
 def test_TFIDF_Retriever():
@@ -87,6 +87,4 @@ def test_TFIDF_Retriever():
 
 
 
-if __name__ == '__main__':
-    test_TFIDF_Retriever()
 
