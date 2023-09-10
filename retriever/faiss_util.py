@@ -23,6 +23,10 @@ class vectorDB:
             assert self.last_idx == self.index.ntotal
 
         else:
+            # TODO: add metric as an option
+            # metric = faiss.METRIC_INNER_PRODUCT
+            # faiss.index_factory(dim, "HNSW32", metric)
+
             self.index = faiss.index_factory(dim, "HNSW32")
             self.idx_to_key = {}
             self.key_to_idx = {}  # reverse map

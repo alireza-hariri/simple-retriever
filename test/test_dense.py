@@ -18,11 +18,13 @@ def test_DenseRetriever():
     for id_only in [False, True]:
         tick("loding model")
         retriever = DenseRetriever(
-            # model = "intfloat/multilingual-e5-base",
             # model = "sentence-transformers/LaBSE",
             # model = "sentence-transformers/paraphrase-xlm-r-multilingual-v1",
+            # model = "intfloat/multilingual-e5-base",
             # size=768,
             # sentence_transformer=False
+            model="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+            size=384,
             id_only=id_only
         )
         tick("calculating embeddings")
@@ -109,5 +111,5 @@ def compare_models():
 
 
 if __name__ == "__main__":
-    # test_DenseRetriever()
-    compare_models()
+    test_DenseRetriever()
+    # compare_models()

@@ -56,7 +56,7 @@ def retriever_factory(method="tf_idf_cfg_1", **params):
                             "analyzer": "char_wb",
                             "ngram_range": (4, 4),
                         },
-                        "weight": 0.5,
+                        "weight": 0.2,
                     },
                     "LaBSE": {
                         "method": "dense_LaBSE",
