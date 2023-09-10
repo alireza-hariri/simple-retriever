@@ -1,12 +1,17 @@
 
 from . import TFIDF_Retriever
 from . import DenseRetriever
+from . import EnsembleRetriever
+
 
 
 def retriever_factory(method='tf_idf_cfg_1', **params):
 
-    ''' factory function for creating proper retriever model '''
-
+    ''' 
+    object factory for creating proper retriever model 
+    https://www.tutorialspoint.com/design_pattern/factory_pattern.htm
+    
+    '''
     match method:
 
         case 'tf_idf_cfg_1': # config-1
@@ -44,6 +49,32 @@ def retriever_factory(method='tf_idf_cfg_1', **params):
 
         case 'dense_custom':
             return DenseRetriever(**params)
+        
+        case 'ensemble_cfg_1':
+            return EnsembleRetriever(
+                model_dict={
+                    'tf_idf':{
+                        method: 'tf_idf_custom',
+                        params: {
+                            'analyzer':'char_wb',
+                            'ngram_range':(4,4),
+                        },
+                        weight: 0.5,
+                    },
+                    'LaBSE':{
+                        method: 'dense_LaBSE',
+                        weight: 1.0,
+                    },
+                    'multilingual_e5':{
+                        method: 'dense_multilingual_e5',
+                        weight: 1.0,
+                    },
+                    'MiniLM':{
+                        method: 'dense_MiniLM',
+                        weight: 0.5,
+                    },
+                }
+            )
         
         case _:
             raise ValueError(f'unknown method: {method}')
