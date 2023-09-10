@@ -2,3 +2,5 @@ __pycache__/
 simple_retriever.egg-info/
 .vscode/
 env-retriever/
+build/
+dist/

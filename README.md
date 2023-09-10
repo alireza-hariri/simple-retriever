@@ -1,6 +1,6 @@
 
 
-# basic retrival methods
+# <b>simple-retriever</b> <small>(basic retrival methods)</small>
 ### A simple warpper around common retrival tools
 this repository is a simple warpper around common retrival tools especially
 sklearn tf-idf and some of huggingface models.  
