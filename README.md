@@ -1,6 +1,6 @@
 
 
-# retrival and text similarity tools
+# retrival basic methods
 ### A simple warpper around common retrival tools
 
 fast and typo telorant tf-idf and multilingual sentence embedding models for retrieval.  
@@ -64,7 +64,7 @@ results4 = retriever.find_similars("کلاه برداری کردن") # -> "در�
 
 ```
 
-# methods
+# supported retrival methods
 
 ### tf_idf_cfg_1
 tf-idf config 1 -> fast and typo telorant tf-idf order insensitive
