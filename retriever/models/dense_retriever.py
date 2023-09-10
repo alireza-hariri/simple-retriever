@@ -4,8 +4,8 @@ import torch
 import json
 from transformers import AutoTokenizer, AutoModel
 from sentence_transformers import SentenceTransformer
-from .faiss_util import vectorDB
-from .utils import average_pool
+from ..faiss_util import vectorDB
+from ..utils import average_pool
 
 class DenseRetriever:
     '''

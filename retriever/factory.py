@@ -1,7 +1,6 @@
 
 from . import TFIDF_Retriever
 from . import DenseRetriever
-from . import EnsembleRetriever
 
 
 
@@ -32,12 +31,14 @@ def retriever_factory(method='tf_idf_cfg_1', **params):
             return DenseRetriever(
                 model='sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2',
                 size=384,
+                **params,
             )
 
         case 'dense_LaBSE':
             return DenseRetriever(
                 model='sentence-transformers/LaBSE',
                 size=768,
+                **params,
             )
 
         case 'dense_multilingual_e5':
@@ -45,33 +46,35 @@ def retriever_factory(method='tf_idf_cfg_1', **params):
                 model='intfloat/multilingual-e5-base',
                 size=768,
                 sentence_transformer=False,
+                **params,
             )   
 
         case 'dense_custom':
             return DenseRetriever(**params)
         
         case 'ensemble_cfg_1':
+            from . import EnsembleRetriever
             return EnsembleRetriever(
                 model_dict={
                     'tf_idf':{
-                        method: 'tf_idf_custom',
-                        params: {
+                        'method': 'tf_idf_custom',
+                        'params': {
                             'analyzer':'char_wb',
                             'ngram_range':(4,4),
                         },
-                        weight: 0.5,
+                        'weight': 0.5,
                     },
                     'LaBSE':{
-                        method: 'dense_LaBSE',
-                        weight: 1.0,
+                        'method': 'dense_LaBSE',
+                        'weight': 1.0,
                     },
                     'multilingual_e5':{
-                        method: 'dense_multilingual_e5',
-                        weight: 1.0,
+                        'method': 'dense_multilingual_e5',
+                        'weight': 1.0,
                     },
                     'MiniLM':{
-                        method: 'dense_MiniLM',
-                        weight: 0.5,
+                        'method': 'dense_MiniLM',
+                        'weight': 0.5,
                     },
                 }
             )

@@ -1,7 +1,9 @@
+from .. import retriever_factory
+from copy import deepcopy
+import numpy as np
 
 
 class EnsembleRetriever:
-    
     def __init__(
         self,
         model_dict=None,
@@ -17,37 +19,51 @@ class EnsembleRetriever:
             # # TODO: load retreiver models from folders !!!!!!!!!!!
             # if model_dict:
             #     raise ValueError('model_list should be None when load_path is not None')
-        
-            raise NotImplementedError('loading is not implemented yet')
+
+            raise NotImplementedError("loading is not implemented yet")
 
         elif model_dict:
-            self.meta = model_dict
+            self.meta = deepcopy(model_dict)
             self.docs = []
-            # model weights !!!!!!!!!
-            # models !!!!!!!
-    
-    def add_doc(self,doc):
-        for model_name,model in self.models.items():
+
+            def get_params(model_meta):
+                params = model_meta.get("params", {})
+                params["id_only"] = True
+                return params
+
+            self.models = {
+                name: retriever_factory(model["method"], **get_params(model))
+                for name, model in model_dict.items()
+            }
+            self.model_weights = {
+                name: model["weight"] for name, model in model_dict.items()
+            }
+
+    def add_doc(self, doc):
+        for model_name, model in self.models.items():
             model.add_doc(doc)
         self.docs.append(doc)
 
-    def add_doc_batch(self,docs):
-        for model_name,model in self.models.items():
+    def add_doc_batch(self, docs):
+        for model_name, model in self.models.items():
             model.add_doc_batch(docs)
         self.docs.extend(docs)
 
-    def find_similars(self,query,top_k=5):
-        model_weights = {} # ???
+    def find_similars(self, query, top_k=5):
+        model_weights = self.model_weights
         all_condidates = {}
         worst = {}
-        for name,ret_model in models.items():
-            results = ret_model.find_similars(s, top_k=2*k)
-            for key,score in results:
+        for name, ret_model in self.models.items():
+            results = ret_model.find_similars(query, top_k=2 * top_k)
+            for key, score in results:
                 if key not in all_condidates:
                     all_condidates[key] = {}
-                all_condidates[key][name] = score*model_coef[name]
-            worst[model] = score*model_coef[name] # last-sample score is lowest score
-        
+                all_condidates[key][name] = score * model_weights[name]
+            worst[name] = score * model_weights[name]
+
         # TODO: normalize scores of each model
         for k in all_condidates:
-            all_condidates[k]['ensemble'] = np.mean([all_condidates[k].get(m,worst[m]) for m in models])
+            all_condidates[k]["ensemble"] = np.mean(
+                [all_condidates[k].get(m, worst[m]) for m in self.models]
+            )
+        return sorted(all_condidates.items(), key=lambda x: -x[1]["ensemble"])[:top_k]
