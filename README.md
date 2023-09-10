@@ -67,7 +67,7 @@ results4 = retriever.find_similars("کلاه برداری کردن") # -> "در�
 # supported retrival methods
 
 ### tf_idf_cfg_1
-tf-idf config 1 -> fast and typo telorant tf-idf order insensitive
+tf-idf config 1 -> fast and typo telorant tf-idf (insensitive to word order)
 
 ### tf_idf_cfg_2
 tf-idf config 2 ->  less typo telorant tf-idf + a little order sensitive
@@ -82,7 +82,7 @@ a little smaller than LaBSE  but still good model
 small model 
 
 ### ensemble_cfg_1
-ensemble of 4 models (it may need 4GB of free RAM for initialization)
+an ensemble of 4 different models (labse,minilm,e5,tf-ifd) (it may need 4GB of free RAM for initialization)
 
 
 ## custom configs 
