@@ -1,5 +1,8 @@
 
-numpy
-fiass-cpu
-sentence-transformers
-scikit-learn
+numpy >= 1.10
+faiss-cpu >=1.7.0
+sentence-transformers >=2.1.0
+scikit-learn >= 1.2
+
+# dev-dependencies
+easytimer

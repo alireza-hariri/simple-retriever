@@ -1,6 +1,6 @@
 
 
-# retrival basic methods
+# basic retrival methods
 ### A simple warpper around common retrival tools
 
 fast and typo telorant tf-idf and multilingual sentence embedding models for retrieval.  
