@@ -2,9 +2,10 @@
 
 # basic retrival methods
 ### A simple warpper around common retrival tools
-
-fast and typo telorant tf-idf and multilingual sentence embedding models for retrieval.  
-this repo is for educational porposes so the code is very basic and super readable (no fancy abstraction)
+this repository is a simple warpper around common retrival tools especially
+sklearn tf-idf and some of huggingface models.  
+We support fast and typo telorant tf-idf and multilingual sentence embedding models for retrieval.  
+this repo is mainly for educational porposes so the code is very basic and super readable (no fancy abstraction)
 
 
 ## editable install
@@ -67,10 +68,10 @@ results4 = retriever.find_similars("کلاه برداری کردن") # -> "در�
 # supported retrival methods
 
 ### tf_idf_cfg_1
-tf-idf config 1 -> fast and typo telorant tf-idf (insensitive to word order)
+tf-idf config-1 -> fast and typo telorant tf-idf (insensitive to word orders)
 
 ### tf_idf_cfg_2
-tf-idf config 2 ->  less typo telorant tf-idf + a little order sensitive
+tf-idf config-2 ->  less typo telorant tf-idf + little bit of order sensitiveness
 
 ### dense_LaBSE
 good and big model
