@@ -24,5 +24,6 @@ def test_top_k_argsort():
 
 
 if __name__ == "__main__":
-    # you can use pytest to run all functions that starts with 'test_' instead of calling them this way !
+    # you can use pytest -s to run all functions that starts with
+    #  'test_' instead of calling them this way !
     test_top_k_argsort()

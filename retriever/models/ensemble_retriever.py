@@ -4,11 +4,17 @@ from copy import deepcopy
 import numpy as np
 
 
+def calc_mean_std(values):
+    values = np.array(values)
+    return values.mean(), (values.std() + 0.05)
+
+
 class EnsembleRetriever:
     def __init__(
         self,
         model_dict=None,
         load_path=None,
+        normalize=True,
     ):
         if load_path:
             # # read meta file
@@ -25,6 +31,7 @@ class EnsembleRetriever:
 
         elif model_dict:
             self.meta = deepcopy(model_dict)
+            self.normalize = normalize
             self.docs = []
 
             def get_params(model_meta):
@@ -54,22 +61,30 @@ class EnsembleRetriever:
         model_weights = self.model_weights
         all_condidates = {}
         worst = {}
+        model_mean_std = {}
         for name, ret_model in self.models.items():
             results = ret_model.find_similars(
                 query, top_k=min(top_k, len(self.docs) - 1)
             )
+            model_mean_std[name] = calc_mean_std([v for _, v in results])
+
             for key, score in results:
                 if key not in all_condidates:
                     all_condidates[key] = {}
-                all_condidates[key][name] = score * model_weights[name]
-            worst[name] = score * model_weights[name]
+                all_condidates[key][name] = score
+            worst[name] = score
 
-        # TODO: normalize scores of each model
-        for k in all_condidates:
-            all_condidates[k]["ensemble"] = np.mean(
-                [all_condidates[k].get(m, worst[m]) for m in self.models]
-            )
         all_keys = list(all_condidates.keys())
+
+        def get_val(condid, name):
+            m, std = model_mean_std[name]
+            return (condid.get(name, worst[name])-m) / std * model_weights[name]
+
+        for k in all_keys:
+            all_condidates[k]["ensemble"] = np.mean(
+                [get_val(all_condidates[k], name) for name in self.models]
+            ) + 0.5
+
         top_k_idx = top_k_argsort(
             [all_condidates[k]["ensemble"] for k in all_keys], top_k
         )
