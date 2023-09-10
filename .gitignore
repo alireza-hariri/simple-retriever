@@ -1,2 +1,3 @@
 __pycache__/
-simple_retriever.egg-info/SOURCES.txt
+simple_retriever.egg-info/
+.vscode/
