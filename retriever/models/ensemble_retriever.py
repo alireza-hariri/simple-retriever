@@ -1,4 +1,5 @@
 from .. import retriever_factory
+from ..utils import top_k_argsort
 from copy import deepcopy
 import numpy as np
 
@@ -54,7 +55,9 @@ class EnsembleRetriever:
         all_condidates = {}
         worst = {}
         for name, ret_model in self.models.items():
-            results = ret_model.find_similars(query, top_k=2 * top_k)
+            results = ret_model.find_similars(
+                query, top_k=min(top_k, len(self.docs) - 1)
+            )
             for key, score in results:
                 if key not in all_condidates:
                     all_condidates[key] = {}
@@ -66,4 +69,11 @@ class EnsembleRetriever:
             all_condidates[k]["ensemble"] = np.mean(
                 [all_condidates[k].get(m, worst[m]) for m in self.models]
             )
-        return sorted(all_condidates.items(), key=lambda x: -x[1]["ensemble"])[:top_k]
+        all_keys = list(all_condidates.keys())
+        top_k_idx = top_k_argsort(
+            [all_condidates[k]["ensemble"] for k in all_keys], top_k
+        )
+        return [
+            (self.docs[all_keys[i]], all_condidates[all_keys[i]]["ensemble"])
+            for i in top_k_idx
+        ]
