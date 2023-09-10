@@ -8,6 +8,13 @@ def top_k_argsort(scores, k):
     return top_k_idxs
 
 
+def average_pool(last_hidden_states,attention_mask) :
+    last_hidden = last_hidden_states.masked_fill(~attention_mask[..., None].bool(), 0.0)
+    return last_hidden.sum(dim=1) / attention_mask.sum(dim=1)[..., None]
+
+
+
+
 def test_top_k_argsort():
     scores = np.array([0.1,0.2,0.3,0.4,0.5,0.6])
     # assert will raise error if its argument is false
