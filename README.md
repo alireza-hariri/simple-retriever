@@ -74,13 +74,20 @@ tf-idf config-1 -> fast and typo telorant tf-idf (insensitive to word orders)
 tf-idf config-2 ->  less typo telorant tf-idf + little bit of order sensitiveness
 
 ### dense_LaBSE
-good and big model
+good and big model.  
+you can try this model [here](https://huggingface.co/sentence-transformers/LaBSE)
+on hugging-face 
+
 
 ### dense_multilingual_e5
-a little smaller than LaBSE  but still good model
+a little smaller than LaBSE but still good model.  
+you can try this model [here](https://huggingface.co/intfloat/multilingual-e5-base)
+on hugging-face 
 
 ### dense_MiniLM
-small model 
+small model.  
+you can try this model [here](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2)
+on hugging-face 
 
 ### ensemble_cfg_1
 an ensemble of 4 different models (labse,minilm,e5,tf-ifd) (it may need 4GB of free RAM for initialization)
