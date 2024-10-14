@@ -3,7 +3,7 @@
 # <b>simple-retriever</b> <small>(basic retrieval methods)</small>
 ### A simple wrapper around common retrieval tools
 This repository is a simple wrapper around common retrieval tools especially
-the sklearn `tf-idf` and some huggingface models.  
+the sklearn `tf-idf` and some huggingface models, and the `fiass` library'.  
 The examples supports fast and typo-tolerant tf-idf, multilingual sentence embedding models, and hybrid methods for retrieval.  
 this repo is mainly for educational purposes so the code is super readable and there is no abstraction (just duck-typing)
 
