@@ -1,29 +1,29 @@
 
 
-# <b>simple-retriever</b> <small>(basic retrival methods)</small>
-### A simple warpper around common retrival tools
-this repository is a simple warpper around common retrival tools especially
-sklearn tf-idf and some of huggingface models.  
-We support fast and typo telorant tf-idf and multilingual sentence embedding models for retrieval.  
-this repo is mainly for educational porposes so the code is very basic and super readable (no fancy abstraction)
+# <b>simple-retriever</b> <small>(basic retrieval methods)</small>
+### A simple wrapper around common retrieval tools
+This repository is a simple wrapper around common retrieval tools especially
+the sklearn `tf-idf` and some huggingface models.  
+The examples supports fast and typo-tolerant tf-idf, multilingual sentence embedding models, and hybrid methods for retrieval.  
+this repo is mainly for educational purposes so the code is super readable and there is no abstraction (just duck-typing)
 
 
 ## editable install
 1. clone repository from github 
-2. cd to repository folder
+2. cd to the repository folder
 3. install with pip in editable mode  
 `pip install -e .`
 
 ## usage:
-you can find most relevent document in just 3 line of code !
+you can find the most relevant document in just 3 lines of code!
 ```python
 from retriever import retriever_factory
 docs = [
     'hello world',
-    'how are you woooorld',
-    'i am fine ',
-    'this is a junk sentence!',
-    'this is a siiiiimilar word with a typo',
+    'How are you woooorld',
+    'I am fine ',
+    'This is a junk sentence!',
+    'This is a siiiiimilar word with a typo',
     "it's time to find most similar documents",
 ]
 retriever = retriever_factory(method='tf_idf_cfg_1')
@@ -65,10 +65,10 @@ results4 = retriever.find_similars("کلاه برداری کردن") # -> "در�
 
 ```
 
-# supported retrival methods
+# Supported retrieval methods
 
 ### tf_idf_cfg_1
-tf-idf config-1 -> fast and typo telorant tf-idf (insensitive to word orders)
+tf-idf config-1 -> fast and typo tolerant tf-idf (insensitive to word orders)
 
 ### tf_idf_cfg_2
 tf-idf config-2 ->  less typo telorant tf-idf + little bit of order sensitiveness
@@ -80,7 +80,7 @@ on hugging-face
 
 
 ### dense_multilingual_e5
-a little smaller than LaBSE but still good model.  
+It's a little smaller than LaBSE, but a good one.  
 you can try this model [here](https://huggingface.co/intfloat/multilingual-e5-base)
 on hugging-face 
 
@@ -94,5 +94,5 @@ an ensemble of 4 different models (labse,minilm,e5,tf-ifd) (it may need 4GB of f
 
 
 ## custom configs 
-for undestanding custom configs please refere to  [factory.py](./retriever/factory.py) file
+for understanding custom configs please refer to  [factory.py](./retriever/factory.py) file
 
